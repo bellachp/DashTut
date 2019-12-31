@@ -7,7 +7,7 @@ from dash.dependencies import Input, Output
 
 from app import app
 from urls import url_paths
-from apps import base_app, scatter_app
+from apps import base_app, scatter_app, combo_app
 
 
 app.layout = html.Div(
@@ -22,12 +22,12 @@ app.layout = html.Div(
     Output('page-content', 'children'),
     [Input('url', 'pathname')])
 def render_page(pathname):
-    if pathname == url_paths["index"]:
+    if pathname == url_paths["index"] or pathname == url_paths["home"]:
         return base_app.layout
     elif pathname == url_paths["scatter"]:
         return scatter_app.layout
     elif pathname == url_paths["combo"]:
-        return '404'
+        return combo_app.layout
     else:
         return '404'
 

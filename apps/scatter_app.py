@@ -8,8 +8,6 @@ from dash.dependencies import Input, Output
 import pandas as pd
 
 from app import app
-from urls import url_paths
-
 
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminderDataFiveYear.csv')
