@@ -51,11 +51,11 @@ layout = html.Div([
         'padding': '10px 5px'
     }),
 
-    html.Div(dcc.Slider(
+    html.Div(dcc.RangeSlider(
         id='crossfilter-year--slider',
         min=df['Year'].min(),
         max=df['Year'].max(),
-        value=df['Year'].max(),
+        value=[df['Year'].min(), df['Year'].max()],
         marks={str(year): str(year) for year in df['Year'].unique()},
         step=None
     ), style={'padding': '20px 40px'}),
@@ -89,13 +89,14 @@ layout = html.Div([
      Input('crossfilter-year--slider', 'value')])
 def update_graph(xaxis_column_name, yaxis_column_name,
                  xaxis_type, yaxis_type,
-                 year_value):
-    dff = df[df['Year'] == year_value]
+                 selected_years):
+    years_range = [k for k in range(selected_years[0], selected_years[1] + 1)]
+    dff = df[df['Year'].isin(years_range)]
 
     graph_data = {
         'data': [dict(
-            x=dff[dff['Indicator Name'] == xaxis_column_name]['Value'],
-            y=dff[dff['Indicator Name'] == yaxis_column_name]['Value'],
+            x=dff[dff['Indicator Name'] == xaxis_column_name].groupby("Country Name")['Value'].mean(),
+            y=dff[dff['Indicator Name'] == yaxis_column_name].groupby("Country Name")['Value'].mean(),
             text=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name'],
             customdata=dff[dff['Indicator Name'] == yaxis_column_name]['Country Name'],
             mode='markers',
