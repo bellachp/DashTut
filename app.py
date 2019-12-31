@@ -68,7 +68,7 @@ app.layout = html.Div(style={'backgroundColor': colors["background"]}, children=
         # value=df['year'].min(),
         marks={str(year): str(year) for year in df['year'].unique()},
         step=None
-        )
+    )
 
 ])
 
@@ -96,7 +96,8 @@ def updated_scatter(selected_years):
                     'line': {'width': 0.5, 'color': 'white'}
                 },
                 name=k
-                ))
+            )
+        )
 
     result_dict = {
         'data': traces,
@@ -108,11 +109,10 @@ def updated_scatter(selected_years):
             legend={'x': 0, 'y': 1},
             hovermode='closest',
             transition={'duration': 500}
-            )
-        }
+        )
+    }
 
     return result_dict
-
 
 
 # main
